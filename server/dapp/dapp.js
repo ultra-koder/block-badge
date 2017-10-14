@@ -5,12 +5,14 @@ const config = ba.common.config;
 const Promise = ba.common.Promise;
 
 const userManagerJs = require(process.cwd() + '/' + config.libPath + '/user/userManager');
+const courseManagerJs = require(process.cwd() + '/' + config.libPath + '/course/courseManager');
+const badgeManagerJs = require(process.cwd() + '/' + config.libPath + '/badge/badgeManager');
 
 const ErrorCodes = ba.rest.getEnums(`${config.libPath}/common/ErrorCodes.sol`).ErrorCodes;
 
 const contractName = 'AdminInterface';
 const contractFilename = '/admin/AdminInterface.sol';
-const subContractsNames = ['userManager'];
+const subContractsNames = ['userManager', 'courseManager', 'badgeManager'];
 
 function* uploadContract(admin, libPath) {
   const contract = yield rest.uploadContract(admin, contractName, libPath + contractFilename);
@@ -21,6 +23,8 @@ function* uploadContract(admin, libPath) {
 
 function* compileSearch() {
   yield userManagerJs.compileSearch();
+  yield courseManagerJs.compileSearch();
+  yield badgeManagerJs.compileSearch();
 }
 
 function* getSubContracts(contract) {
@@ -43,6 +47,7 @@ function* setContract(admin, contract) {
   // set the managers
   const subContarcts = yield getSubContracts(contract);
   const userManager = userManagerJs.setContract(admin, subContarcts['userManager']);
+  const courseManager = courseManagerJs.setContract(admin, subContarcts['courseManager']);
 
   contract.getBalance = function* (username) {
     rest.verbose('dapp: getBalance', username);
@@ -55,6 +60,28 @@ function* setContract(admin, contract) {
   // deploy
   contract.deploy = function* (dataFilename, deployFilename) {
     return yield deploy(admin, contract, userManager, dataFilename, deployFilename);
+  }
+
+  function* createCourse(courseManager, args) {
+    rest.verbose('dapp: createCourse', {args});
+    args.created = + new Date();
+    const course = yield courseManager.createCourse(args);
+    return course;
+  }
+
+  // course by name
+  contract.getCourse = function* (name) {
+    rest.verbose('dapp: getCourse', name);
+    return yield courseManager.getCourse(name);
+  }
+  // course - by provider
+  contract.getCourseByProvider = function* (provider) {
+    rest.verbose('dapp: getCourseByProvider', provider);
+    return yield courseManager.getCourseByProvider(provider);
+  }
+  contract.getCourses = function* () {
+    rest.verbose('dapp: getCourses');
+    return yield courseManager.getCourses();
   }
 
   return contract;
@@ -119,6 +146,33 @@ function* deploy(admin, contract, userManager, presetDataFilename, deployFilenam
   return deployment;
 }
 
+// Courses
+/*
+function* setContract(admin, contract) {
+  rest.verbose('setContract', {admin, contract});
+  // set the managers
+  const subContarcts = yield getSubContracts(contract);
+  const coursetManager = courseManagerJs.setContract(admin, subContarcts['courseManager']);
+
+  function* createCourse(courseManager, args) {
+    rest.verbose('dapp: createCourse', {args});
+    args.created = + new Date();
+    const course = yield courseManager.createCourse(args);
+    return course;
+  }
+
+  // course by name
+  contract.getCourse = function* (name) {
+    rest.verbose('dapp: getCourse', name);
+    return yield courseManager.getCourse(name);
+  }
+  // course - by provider
+  contract.getCourseByProvider = function* (provider) {
+    rest.verbose('dapp: getCourseByProvider', provider);
+    return yield courseManager.getCourseByProvider(provider);
+  }
+}
+*/
 module.exports = {
   setContract: setContract,
   compileSearch: compileSearch,
