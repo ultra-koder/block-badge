@@ -3,8 +3,8 @@ const rest = ba.rest;
 const util = ba.common.util;
 const config = ba.common.config;
 
-const contractName = 'Project';
-const contractFilename = `${config.libPath}/project/contracts/Project.sol`;
+const contractName = 'BadgeManager';
+const contractFilename = `${config.libPath}/badge/contracts/BadgeManager.sol`;
 
 const ErrorCodes = rest.getEnums(`${config.libPath}/common/ErrorCodes.sol`).ErrorCodes;
 
@@ -12,17 +12,18 @@ function* uploadContract(admin, args) {
   const contract = yield rest.uploadContract(admin, contractName, contractFilename, args);
   yield compileSearch();
   contract.src = 'removed';
+  return setContract(admin, contract);
+}
 
+function setContract(admin, contract) {
   contract.getState = function* () {
     return yield rest.getState(contract);
   }
-
   return contract;
 }
 
 function* compileSearch() {
   rest.verbose('compileSearch', contractName);
-
   if (yield rest.isCompiled(contractName)) {
     return;
   }
@@ -30,19 +31,9 @@ function* compileSearch() {
   yield rest.compileSearch(searchable, contractName, contractFilename);
 }
 
-function* getProjectByName(name) {
-  return (yield rest.waitQuery(`${contractName}?name=eq.${encodeURIComponent(name)}`, 1))[0];
-}
-
-function* getProjectByAddress(address) {
-  return (yield rest.waitQuery(`${contractName}?address=eq.${address}`, 1))[0];
-}
-
-
 module.exports = {
   compileSearch: compileSearch,
   uploadContract: uploadContract,
-  getProjectByName: getProjectByName,
   // constants
   contractName: contractName,
 };

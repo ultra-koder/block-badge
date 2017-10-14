@@ -1,5 +1,6 @@
 import "../user/contracts/UserManager.sol";
-import "../project/contracts/ProjectManager.sol";
+import "../badge/contracts/BadgeManager.sol";
+import "../course/contracts/CourseManager.sol";
 
 /**
   * Interface to global contracts
@@ -7,13 +8,15 @@ import "../project/contracts/ProjectManager.sol";
 contract AdminInterface {
   // NOTE: variable name must match contract name
   UserManager public userManager;
-  ProjectManager public projectManager;
+  BadgeManager public badgeManager;
+  CourseManager public courseManager;
 
   /**
     * Constructor. Initialize global contracts and pointers
   */
   function AdminInterface() {
     userManager = new UserManager();
-    projectManager = new ProjectManager();
+    badgeManager = new BadgeManager();
+    courseManager = new CourseManager();
   }
 }

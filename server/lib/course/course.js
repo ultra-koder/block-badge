@@ -3,8 +3,8 @@ const rest = ba.rest;
 const util = ba.common.util;
 const config = ba.common.config;
 
-const contractName = 'Bid';
-const contractFilename = `${config.libPath}/bid/contracts/Bid.sol`;
+const contractName = 'Course';
+const contractFilename = `${config.libPath}/course/contracts/Course.sol`;
 
 const ErrorCodes = rest.getEnums(`${config.libPath}/common/ErrorCodes.sol`).ErrorCodes;
 

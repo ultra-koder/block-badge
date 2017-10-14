@@ -20,7 +20,7 @@ describe('Supply Chain Demo App - deploy contracts', function () {
 
   assert.isDefined(config.dataFilename, 'Data argument missing. Set in config, or use --data <path>');
 
-  const adminName = util.uid('Admin');  // FIXME
+  const adminName = 'Admin';  // FIXME
   const adminPassword = '7890';   // FIXME
 
   // uploading the admin contract and dependencies

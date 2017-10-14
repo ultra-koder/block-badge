@@ -5,14 +5,12 @@ const config = ba.common.config;
 const Promise = ba.common.Promise;
 
 const userManagerJs = require(process.cwd() + '/' + config.libPath + '/user/userManager');
-const projectManagerJs = require(process.cwd() + '/' + config.libPath + '/project/projectManager');
 
-const ProjectEvent = ba.rest.getEnums(`${config.libPath}/project/contracts/ProjectEvent.sol`).ProjectEvent;
 const ErrorCodes = ba.rest.getEnums(`${config.libPath}/common/ErrorCodes.sol`).ErrorCodes;
 
 const contractName = 'AdminInterface';
 const contractFilename = '/admin/AdminInterface.sol';
-const subContractsNames = ['userManager', 'projectManager'];
+const subContractsNames = ['userManager'];
 
 function* uploadContract(admin, libPath) {
   const contract = yield rest.uploadContract(admin, contractName, libPath + contractFilename);
@@ -22,7 +20,6 @@ function* uploadContract(admin, libPath) {
 }
 
 function* compileSearch() {
-  yield projectManagerJs.compileSearch();
   yield userManagerJs.compileSearch();
 }
 
@@ -46,49 +43,10 @@ function* setContract(admin, contract) {
   // set the managers
   const subContarcts = yield getSubContracts(contract);
   const userManager = userManagerJs.setContract(admin, subContarcts['userManager']);
-  const projectManager = projectManagerJs.setContract(admin, subContarcts['projectManager']);
 
   contract.getBalance = function* (username) {
     rest.verbose('dapp: getBalance', username);
     return yield userManager.getBalance(username);
-  }
-  // project - create
-  contract.createProject = function* (args) {
-    return yield createProject(projectManager, args);
-  }
-  // project - by name
-  contract.getProject = function* (name) {
-    rest.verbose('dapp: getProject', name);
-    return yield projectManager.getProject(name);
-  }
-  // projects - by buyer
-  contract.getProjectsByBuyer = function* (buyer) {
-    rest.verbose('dapp: getProjectsByBuyer', buyer);
-    return yield projectManager.getProjectsByBuyer(buyer);
-  }
-  // projects - by state
-  contract.getProjectsByState = function* (state) {
-    rest.verbose('dapp: getProjectsByState', state);
-    return yield projectManager.getProjectsByState(state);
-  }
-  // projects - by supplier
-  contract.getProjectsBySupplier = function* (supplier) {
-    rest.verbose('dapp: getProjectsBySupplier', supplier);
-    return yield projectManager.getProjectsBySupplier(supplier);
-  }
-  // create bid
-  contract.createBid = function* (name, supplier, amount) {
-    rest.verbose('dapp: createBid', {name, supplier, amount});
-    return yield projectManager.createBid(name, supplier, amount);
-  }
-  // bids by name
-  contract.getBids = function* (name) {
-    rest.verbose('dapp: getBids', name);
-    return yield projectManagerJs.getBidsByName(name);
-  }
-  // handle event
-  contract.handleEvent = function* (args) {
-    return yield handleEvent(userManager, projectManager, args);
   }
   // login
   contract.login = function* (username, password) {
@@ -117,50 +75,6 @@ function* login(userManager, username, password) {
   return {authenticate: true, user: baUser};
 }
 
-function* createProject(projectManager, args) {
-  rest.verbose('dapp: createProject', {args});
-  args.created = +new Date();
-  const project = yield projectManager.createProject(args);
-  return project;
-}
-
-// accept bid
-function* acceptBid(userManager, projectManager, buyerName, buyerPassword, bidId, projectName) {
-  rest.verbose('dapp: acceptBid', {buyerName, buyerPassword, bidId, projectName});
-  const buyer = yield userManager.getUser(buyerName);
-  buyer.password = buyerPassword;
-  const result = yield projectManager.acceptBid(buyer, bidId, projectName);
-  return result;
-}
-
-// receive project
-function* receiveProject(userManager, projectManager, projectName) {
-  rest.verbose('dapp: receiveProject', projectName);
-  // get the accepted bid
-  const bid = yield projectManager.getAcceptedBid(projectName);
-  // get the supplier for the accepted bid
-  const supplier = yield userManager.getUser(bid.supplier);
-  // Settle the project:  change state to RECEIVED and tell the bid to send the funds to the supplier
-  const result = yield projectManager.settleProject(projectName, supplier.account, bid.address);
-  return result;
-}
-
-// handle project event
-function* handleEvent(userManager, projectManager, args) {
-  const name = args.name;
-  rest.verbose('dapp: project handleEvent', args);
-
-    switch(args.projectEvent) {
-      case ProjectEvent.RECEIVE:
-        return yield receiveProject(userManager, projectManager, args.projectName);
-
-      case ProjectEvent.ACCEPT:
-        return yield acceptBid(userManager, projectManager, args.username, args.password, args.bidId, args.projectName);
-
-      default:
-        return yield projectManager.handleEvent(args.projectName, args.projectEvent);
-    }
-}
 
 function* createPresetUsers(userManager, presetUsers) {
   const UserRole = rest.getEnums(`${config.libPath}/user/contracts/UserRole.sol`).UserRole;
