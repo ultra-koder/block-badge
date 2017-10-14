@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import Button from 'react-md/lib/Buttons/Button';
+// import Button from 'react-md/lib/Buttons/Button';
 import Toolbar from 'react-md/lib/Toolbars';
 import ProjectList from './components/ProjectList';
 import mixpanel from 'mixpanel-browser';
@@ -21,23 +21,23 @@ class Projects extends Component {
   }
 
   render() {
-    const actions = this.isBuyer
-      ?
-      <Button
-        flat
-        key="add_circle_outline"
-        label="Create New Project"
-        onClick={(e) => this.handleNewProjectClick(e)}>
-          add_circle_outline
-        </Button>
-      :
-      null;
+    // const actions = this.isBuyer
+    //   ?
+    //   <Button
+    //     flat
+    //     key="add_circle_outline"
+    //     label="Create New Project"
+    //     onClick={(e) => this.handleNewProjectClick(e)}>
+    //       add_circle_outline
+    //     </Button>
+    //   :
+    //   null;
 
     const projectView = this.isBuyer
       ?
       <div className="md-grid">
         <div className="md-cell md-cell--12">
-          <ProjectList listType="buyer" listTitle="My Projects" />
+          <ProjectList listType="buyer" listTitle="My Courses" />
         </div>
       </div>
       :
@@ -55,7 +55,7 @@ class Projects extends Component {
         <Toolbar
           themed
           title="Projects"
-          actions={actions}
+          // actions={actions}
         />
         {projectView}
       </section>
