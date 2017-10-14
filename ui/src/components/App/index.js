@@ -97,7 +97,7 @@ class App extends Component {
 
     return (
       <section>
-        {this.getAppBar("Supply Chain", navItems)}
+        {this.getAppBar("Block Badge", navItems)}
         <Snackbar
           toasts={
             this.props.userMessage

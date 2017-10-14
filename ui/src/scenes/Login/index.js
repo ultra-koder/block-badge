@@ -30,9 +30,9 @@ class Login extends Component {
         <div className="md-cell md-cell--6-desktop md-cell--8-tablet md-cell--12-phone">
           <Card>
             <Media>
-              <img src="img/supply-chain.jpeg" alt="Login splash" />
+              <img src="img/blockchain.jpg" alt="Login splash" />
               <MediaOverlay>
-                <CardTitle title="Blockchain Enabled SCM" >
+                <CardTitle title="Block Badge." >
                 </CardTitle>
               </MediaOverlay>
             </Media>
