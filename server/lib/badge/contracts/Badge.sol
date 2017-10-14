@@ -12,8 +12,8 @@ contract Badge is ErrorCodes, Version {
   string studentName;
   string providerName;
 
-  string issueDate;
-  string expirationDate;
+  uint issueDate;
+  uint expirationDate;
   string bakedImageURL;
 
   function Badge(string _name, uint _id, string _courseName, string _studentName, string _providerName) {

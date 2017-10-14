@@ -30,7 +30,7 @@ contract CourseManager is ErrorCodes, Util {
     return courses[courseId];
   }
 
-  function createCourse(string _name, uint _id, address _providerID, string _courseURL, string _imageURL) returns (ErrorCodes) {
+  function createCourse(string _name, uint _id, string _provider, string _courseURL, string _imageURL) returns (ErrorCodes) {
     // name must be < 32 bytes
     if (bytes(_name).length > 32) return ErrorCodes.ERROR;
     // fail if name exists
@@ -38,7 +38,7 @@ contract CourseManager is ErrorCodes, Util {
     // add course
     uint courseId = courses.length;
     courseNameToIdMap[b32(_name)] = _id;
-    courses.push(new Course(_name, _id, _providerID, _courseURL, _imageURL));
+    courses.push(new Course(_name, _id, _provider, _courseURL, _imageURL));
     return ErrorCodes.SUCCESS;
   }
 
