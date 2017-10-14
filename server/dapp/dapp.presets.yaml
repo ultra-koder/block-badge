@@ -2,15 +2,15 @@ admin:
   name: adomino
   password: password
 users:
-  - username: 'Student_Joe'
+  - username: 'Student_Hudson'
     password: '1234'
     role: STUDENT
-  - username: 'Student_Mary'
+  - username: 'Student_Linda'
     password: '1234'
     role: STUDENT
-  - username: 'Provider_Sam'
+  - username: 'Provider_Joseph'
     password: '1234'
     role: PROVIDER
-  - username: 'Consumer_Bob'
+  - username: 'Consumer_Vitalik'
     password: '1234'
     role: CONSUMER

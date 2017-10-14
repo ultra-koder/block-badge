@@ -37,7 +37,7 @@ contract BadgeManager is ErrorCodes, Util {
     if (exists(badgename)) return ErrorCodes.EXISTS;
     // add badge
     uint badgeId = badges.length;
-    badgeNameToIdMap[b32(badgename)] = userId;
+    badgeNameToIdMap[b32(badgename)] = badgeId;
     badges.push(new Badge(badgename, badgeId, courseName, studentName, providerName));
     return ErrorCodes.SUCCESS;
   }
