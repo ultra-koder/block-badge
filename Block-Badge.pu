@@ -40,7 +40,7 @@ Badge -> Badge: Assign Issue and Expiration date
 Badge -> Badge: GetBakedImageURL
 Badge -> Provider: Badge Ready
 deactivate Badge
-Provider -> Etherium: recordBadge
+Provider -> Etherium: record
 note right: Badge
 
   box "Blockchains"
@@ -49,9 +49,16 @@ note right: Badge
 
 actor Consumer
 
+== Student ==
+
+Student -> Etherium: authorizeViewing
+note right: Consumer
+
+==  ==
+
 == Consumer ==
 
-Consumer -> Etherium: getAllBadgesForStudent
+Consumer -> Etherium: getAllBadges
 note right: Student
 
 ==  ==
