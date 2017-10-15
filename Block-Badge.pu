@@ -49,6 +49,13 @@ note right: Badge
 
 actor Consumer
 
+== Student ==
+
+Student -> Etherium: authorizeViewingBadgesForConsumer
+note right: Consumer
+
+==  ==
+
 == Consumer ==
 
 Consumer -> Etherium: getAllBadgesForStudent
