@@ -6,7 +6,8 @@ import Toolbar from 'react-md/lib/Toolbars';
 import ProjectList from './components/ProjectList';
 import mixpanel from 'mixpanel-browser';
 import {ROLES} from '../../constants.js';
-
+import Exam from './components/Exams/EthereumExam'
+import CourseProvider from './components/Provider/CourseProvider'
 class Projects extends Component {
 
   handleNewProjectClick = function(e) {
@@ -34,20 +35,15 @@ class Projects extends Component {
     //   null;
 
     const projectView = this.isBuyer
-      ?
+      ? //if this is the student, then show this
       <div className="md-grid">
         <div className="md-cell md-cell--12">
-          <ProjectList listType="buyer" listTitle="My Courses" />
+          <Exam/>
         </div>
       </div>
-      :
+      : //else if this is the course provider, then show this
       <div className="md-grid">
-        <div className="md-cell md-cell--12">
-          <ProjectList listType="supplier" listTitle="My Bids" />
-        </div>
-        <div className="md-cell md-cell--12">
-          <ProjectList listType="open" listTitle="Open Projects" />
-        </div>
+        <CourseProvider/>
       </div>;
 
     return (

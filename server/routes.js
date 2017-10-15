@@ -1,14 +1,16 @@
 const routes = require('express').Router();
 const heartbeat = require('./api/v1/heartbeat');
 const login = require('./api/v1/login');
-const projects = require('./api/v1/projects');
 const users = require('./api/v1/users');
 const system = require('./api/v1/system');
+const courses = require('./api/v1/courses');
+//const badges = require('./api/v1/badges');
 
 routes.use('/api/v1/heartbeat', heartbeat);
 routes.use('/api/v1/system', system);
 routes.use('/api/v1/login', login);
-routes.use('/api/v1/projects', projects);
+routes.use('/api/v1/courses', courses);
+//routes.use('/api/v1/badges', badges);
 routes.use('/api/v1/users', users);
 /**
  * Serve the docs for the api
