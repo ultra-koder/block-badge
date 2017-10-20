@@ -1,17 +1,7 @@
-Blockapps BA
-------------
-[![BlockApps logo](http://blockapps.net/img/logo_cropped.png)](http://blockapps.net)
+Block-Badge Demo App - ETHWaterloo, October 2017
 
-### Supply Chain Demo App
-This demo app uses STRATO blockchain platform and Smart Contracts to demonstrate a solution for a basic 2-party Supply Chain Workflow.
-
-![Alt text](SupplyChain-Workflow.png?raw=true "Supply Chain Workflow")
-
-![Alt text](sequence-diagram-05.png?raw=true "Supply Chain Sequence Diagram")
-
-![Alt text](Demo_Application_Stack.png?raw=true "Demo Application Stack")
-
-![Alt text](Production_Architecture.png?raw=true "Production Architecture")
+This is a credentials verification platform example created for the ETHWaterloo hackathon.
+College is one option. Today, students have access to Udemy, trade schools, YouTube, Quora, Stack Overflow, Google, and more. These award course certificates that can easily be securely stored on a blockchain, and shared as wanted. This app adds a secure, decentralized option on top of Open Badges standard.
 
 ### Pre Requisites
 
