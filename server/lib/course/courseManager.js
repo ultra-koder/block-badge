@@ -29,6 +29,9 @@ function setContract(admin, contract) {
   contract.getCourses = function* (name) {
     return yield getCourses(contract);
   }
+  contract.exists = function* (name) {
+    return yield exists(admin, contract, name);
+  }
   contract.getCourseByProvider = function* (provider) {
     return yield getCourseByProvider(contract, provider);
   }
@@ -60,6 +63,19 @@ function* createCourse(admin, contract, args) {
   const course = yield getCourse(admin, contract, args.name);
   return course;
 }
+
+function* exists(admin, contract, name) {
+  rest.verbose('exists', name);
+  // function exists(string name) returns (bool) {
+  const method = 'exists';
+  const args = {
+    name: name,
+  };
+  const result = yield rest.callMethod(admin, contract, method, args);
+  const exists = (result[0] === true);
+  return exists;
+}
+
 
 function* getCourse(admin, contract, name) {
   rest.verbose('getCourse', name);

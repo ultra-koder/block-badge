@@ -49,10 +49,21 @@ function* setContract(admin, contract) {
   const userManager = userManagerJs.setContract(admin, subContarcts['userManager']);
   const courseManager = courseManagerJs.setContract(admin, subContarcts['courseManager']);
 
+  contract.getUser = function* (username) {
+    rest.verbose('dapp: getUser', username);
+    return yield userManager.getUser(username);
+  }
+
+  contract.getUsers = function* () {
+    rest.verbose('dapp: getUsers');
+    return yield userManager.getUsers();
+  }
+
   contract.getBalance = function* (username) {
     rest.verbose('dapp: getBalance', username);
     return yield userManager.getBalance(username);
   }
+
   // login
   contract.login = function* (username, password) {
     return yield login(userManager, username, password);
@@ -146,33 +157,6 @@ function* deploy(admin, contract, userManager, presetDataFilename, deployFilenam
   return deployment;
 }
 
-// Courses
-/*
-function* setContract(admin, contract) {
-  rest.verbose('setContract', {admin, contract});
-  // set the managers
-  const subContarcts = yield getSubContracts(contract);
-  const coursetManager = courseManagerJs.setContract(admin, subContarcts['courseManager']);
-
-  function* createCourse(courseManager, args) {
-    rest.verbose('dapp: createCourse', {args});
-    args.created = + new Date();
-    const course = yield courseManager.createCourse(args);
-    return course;
-  }
-
-  // course by name
-  contract.getCourse = function* (name) {
-    rest.verbose('dapp: getCourse', name);
-    return yield courseManager.getCourse(name);
-  }
-  // course - by provider
-  contract.getCourseByProvider = function* (provider) {
-    rest.verbose('dapp: getCourseByProvider', provider);
-    return yield courseManager.getCourseByProvider(provider);
-  }
-}
-*/
 module.exports = {
   setContract: setContract,
   compileSearch: compileSearch,

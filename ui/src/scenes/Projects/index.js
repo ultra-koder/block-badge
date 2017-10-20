@@ -7,8 +7,23 @@ import ProjectList from './components/ProjectList';
 import mixpanel from 'mixpanel-browser';
 import {ROLES} from '../../constants.js';
 import Exam from './components/Exams/EthereumExam'
+import BadgePanel from './components/Exams/BadgePanel'
 import CourseProvider from './components/Provider/CourseProvider'
+
+
 class Projects extends Component {
+  constructor(props) {
+      super(props);
+      this.state = {showBadge: false};
+      this.handleSubmittClick=this.handleSubmittClick.bind(this)
+    }
+
+
+    handleSubmittClick = function(e) {
+//      e.stopPropagation();
+      this.setState({showBadge: true});
+      console.log('Submitt!');
+    };
 
   handleNewProjectClick = function(e) {
     e.stopPropagation();
@@ -22,6 +37,7 @@ class Projects extends Component {
   }
 
   render() {
+    const showBadge = this.state.showBadge;
     // const actions = this.isBuyer
     //   ?
     //   <Button
@@ -34,11 +50,22 @@ class Projects extends Component {
     //   :
     //   null;
 
+    const main = showBadge
+    ?
+    <div>
+      <Exam handleClick={(val) => this.handleSubmittClick()}/>
+      <BadgePanel />
+      </div>
+    :
+    <div>
+      <Exam/>;
+      </div>
+
     const projectView = this.isBuyer
       ? //if this is the student, then show this
       <div className="md-grid">
         <div className="md-cell md-cell--12">
-          <Exam/>
+        {main}
         </div>
       </div>
       : //else if this is the course provider, then show this

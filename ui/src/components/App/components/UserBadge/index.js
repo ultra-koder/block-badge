@@ -34,7 +34,7 @@ class UserBadge extends Component {
         <div className="md-cell md-cell--8 md-cell--middle">
           <span className="md-font-bold">{this.props.username}</span>
           <br />
-          <span className="md-font-light">Balance: {this.props.balance}</span>
+          <span className="md-font-light"> </span>
         </div>
         <div className="md-cell md-cell--1 md-text-center md-cell--middle">
           <a className="md-avatar--color" href="#" onClick={(e) => this.handleLogoutClick(e)}><FontIcon>exit_to_app</FontIcon></a>
